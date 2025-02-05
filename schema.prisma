@@ -1,0 +1,40 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String?
+  role      Role     @default(TEAM)
+  password  String?
+}
+
+
+model Task {
+  id              Int       @id @default(autoincrement())
+  title           String
+  status          Status    @default(NotStarted)
+  description     String
+  asignt          String
+  authorId        Int       
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+enum Status {
+  NotStarted
+  OnProgress
+  Done
+  Reject
+}
+
+enum Role {
+  LEAD
+  TEAM
+}
